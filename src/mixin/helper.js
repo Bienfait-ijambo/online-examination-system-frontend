@@ -1,5 +1,9 @@
 export default {
- 
+ filters:{
+  formatDate(date) {
+    return new Date(date).toLocaleDateString();
+},
+ },
   methods: {
    
     showMsg(msg) {
