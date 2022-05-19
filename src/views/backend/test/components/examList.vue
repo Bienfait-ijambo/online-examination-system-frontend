@@ -83,8 +83,20 @@
                           <v-list dense width="">
                             <v-list-item
                               link
+                              @click="goToQuestionPage(data.id)"
+                            >
+                              <v-list-item-icon>
+                                <v-icon>description</v-icon>
+                              </v-list-item-icon>
+                              <v-list-item-title style="margin-left: -20px"
+                                >Questions</v-list-item-title
+                              >
+                            </v-list-item>
+
+                            <v-list-item
+                              link
                               @click="
-                                editExam(
+                                passDataToForm(
                                   data.id,
                                   data.Subject.id,
                                   data.duration,
@@ -140,7 +152,7 @@
 </template>
 <script>
 import _ from "lodash";
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     page: 0 + 1,
@@ -152,10 +164,14 @@ export default {
       total: 0,
     },
   }),
-  computed:{
-    ...mapGetters(['examData'])
+  computed: {
+    ...mapGetters(["examData", "editExam"]),
   },
   methods: {
+    goToQuestionPage(id) {
+      this.$store.state.Question.examId = id;
+      this.$router.push("/questions");
+    },
     urlString() {
       let current = this.page;
       return this.query != ""
@@ -173,7 +189,7 @@ export default {
         })
         .catch(() => (this.loading = false));
     },
-    editExam(
+    passDataToForm(
       id,
       courseId,
       duration,
@@ -189,8 +205,9 @@ export default {
         right_question: right_question,
         bad_question: bad_question,
       });
-      this.$router.push('/exam_page')
-      this.edit = true;
+
+      this.$router.push("/exam_page");
+      this.$store.state.Exam.editExam = true;
     },
     deleteSubject(id) {
       this.confirmMsg().then(() => {

@@ -15,6 +15,7 @@ const state = {
     bad_question: 0,
 
   },
+  editExam:false,
   //end exam
   subjects: [],
   question: [
@@ -38,6 +39,9 @@ const state = {
     { value: 4 },
     { value: 5 },
   ],
+  wrongAnwer: [
+    { value: 0 },
+  ],
 };
 
 const getters = {
@@ -46,6 +50,8 @@ const getters = {
   question: (state) => state.question,
   time: (state) => state.time,
   goodMark: (state) => state.goodMark,
+  editExam:(state)=> state.editExam,
+  wrongAnwer:(state)=> state.wrongAnwer,
 };
 
 const actions = {

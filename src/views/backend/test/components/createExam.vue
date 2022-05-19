@@ -42,7 +42,7 @@
                     dense
                   ></v-select>
                   <v-select
-                    label="Good question-marks"
+                    label="Good answer"
                     outlined
                     :items="goodMark"
                     v-model="examData.right_question"
@@ -51,6 +51,17 @@
                     required
                     dense
                   ></v-select>
+                  <v-select
+                    label="Wrong answer"
+                    outlined
+                    :items="wrongAnwer"
+                    v-model="examData.bad_question"
+                    item-value="value"
+                    item-text="value"
+                    required
+                    dense
+                  ></v-select>
+                  
                   
                 </v-flex>
               </v-layout>
@@ -66,7 +77,7 @@
                 dark
                 @click="validate"
               >
-                <span> {{ edit ? "Edit" : "Save" }}</span>
+                <span> {{ this.editExam ? "Edit" : "Save" }}</span>
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -85,12 +96,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["examData", "subjects", "question", "time", "goodMark"]),
+    ...mapGetters(["examData", "subjects", "question", "time", "goodMark","editExam","wrongAnwer"]),
   },
   methods: {
     ...mapActions(["getSubject"]),
     validate() {
-      if (!this.edit) this.register();
+      if (!this.editExam) this.register()
+      else
+      this.updateData()
     },
 
     register() {
@@ -98,8 +111,19 @@ export default {
       this.postData(`new_exam`, JSON.stringify(this.examData))
         .then(({ data }) => {
           this.showMsg(data.message);
-          this.resetObj(this.svData);
-          this.examData.bad_question=0
+          this.resetObj(this.examData);
+          this.loading = false;
+           this.$store.state.Exam.editExam = false;
+        })
+        .catch(() => (this.loading = false));
+    },
+    updateData() {
+      this.loading = true;
+      this.putData(`update_exam`, JSON.stringify(this.examData))
+        .then(({ data }) => {
+          this.showMsg(data.message);
+          this.$store.state.Exam.editExam = false;
+          this.resetObj(this.examData);
           this.loading = false;
         })
         .catch(() => (this.loading = false));
@@ -107,6 +131,7 @@ export default {
   },
   created() {
     this.getSubject();
+   
   },
 };
 </script>

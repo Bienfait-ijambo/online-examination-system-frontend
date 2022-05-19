@@ -46,6 +46,13 @@ const routes = [
             /* webpackChunkName: "examList" */ "../views/backend/test/components/examList.vue"
           ),
       },
+      {
+        path: "/questions",
+        component: () =>
+          import(
+            /* webpackChunkName: "examList" */ "../views/backend/test/components/question.vue"
+          ),
+      },
     ],
   },
 ];
