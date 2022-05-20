@@ -83,7 +83,7 @@
                           <v-list dense width="">
                             <v-list-item
                               link
-                              @click="goToQuestionPage(data.id)"
+                              @click="goToQuestionPage(data.id,data.Subject.subjectName)"
                             >
                               <v-list-item-icon>
                                 <v-icon>description</v-icon>
@@ -168,8 +168,9 @@ export default {
     ...mapGetters(["examData", "editExam"]),
   },
   methods: {
-    goToQuestionPage(id) {
-      this.$store.state.Question.examId = id;
+    goToQuestionPage(id,examName) {
+      this.$store.state.Question.questionData.examId = id;
+      this.$store.state.Question.examName = examName;
       this.$router.push("/questions");
     },
     urlString() {
