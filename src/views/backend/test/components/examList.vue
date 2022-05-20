@@ -176,7 +176,7 @@ export default {
     urlString() {
       let current = this.page;
       return this.query != ""
-        ? `get_exams?search=${this.query}&&size=10&page=${(current = 0)}`
+        ? `get_exams?search=${this.query}&size=10&page=${(current = 0)}`
         : `get_exams?search=${this.query}&size=10&page=${current - 1}`;
     },
     onPageChange() {

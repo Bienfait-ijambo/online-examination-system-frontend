@@ -28,6 +28,7 @@ export default {
         .then(({ data }) => {
           this.showMsg(data.message);
           this.loading = false;
+          this.$emit('onPageChange')
         })
         .catch(() => (this.loading = false));
     },
